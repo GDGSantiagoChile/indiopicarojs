@@ -8,7 +8,7 @@ var t = new Twitter({
    token: '44652089-f3Y09zedoTIRilolC6tIJYrQZ5yp2yS17ijxUwRzk',
    token_secret: '85tIzY4XSYn4n5lrkokWpHzm5PnjIUW0y7EbEM0oHh3nk'
 });
-
+var busy = false;
 
 var subirIndio = function(servo) {
    servo.to(0);
