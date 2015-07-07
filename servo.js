@@ -1,13 +1,14 @@
-var five = require("johnny-five");
+'use strict';
+var five = require('johnny-five');
 var board = new five.Board();
-var controller = process.argv[2] || "GP2Y0A02YK0F";
+var controller = process.argv[2] || 'GP2Y0A02YK0F';
 
-board.on("ready", function() {
-    var servo = new five.Servo({
-        pin: 10,
-        range: [0, 360],
-        startAt: 0,
-        type: 'continuous'
-    });
-    servo.to(180);
+board.on('ready', function() {
+   var servo = new five.Servo({
+      pin: 10,
+      range: [0, 180],
+      startAt: 0,
+      type: 'continuous'
+   });
+   servo.sweep();
 });

@@ -6,9 +6,8 @@ board.on('ready', function() {
    var piezo = new five.Piezo({
       pin: 10
    });
-
    var theSong = [];
-   for (var i = 500; i < 1000; i+=10) {
+   for (var i = 500; i < 1000; i += 10) {
       theSong.push([
          i, 1
       ]);
@@ -17,6 +16,4 @@ board.on('ready', function() {
       tempo: 1700,
       song: theSong
    });
-
-
 });

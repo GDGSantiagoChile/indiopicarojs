@@ -10,26 +10,55 @@ var t = new Twitter({
 });
 var busy = false;
 
-var subirIndio = function(servo) {
-   servo.to(0);
+var subirIndio = function(servo, piezo, theSong) {
+   if (!busy) {
+      servo.to(0);
+      piezo.play({
+         tempo: 1700,
+         song: theSong
+      });
+      busy = false;
+   }
 };
 
-var bajarIndio = function(servo) {
-   servo.to(180);
+var bajarIndio = function(servo, piezo, theSong) {
+   if (!busy) {
+      servo.to(180, 1200);
+      piezo.play({
+         tempo: 1700,
+         song: theSong
+      });
+      busy = false;
+   }
 };
 
 board.on('ready', function() {
    var servo = new five.Servo({
       pin: 10,
-      startAt: 0
+      startAt: 180
    });
+   var piezo = new five.Piezo({
+      pin: 11
+   });
+
+   var theSongUp = [];
+   var theSongDown = [];
+   for (var i = 500; i < 1000; i += 10) {
+      theSongUp.push([
+         i, 1
+      ]);
+      theSongDown.push([
+         1000 - i, 1
+      ]);
+   }
+
    t.on('tweet', function(tweet) {
       if (tweet.text.toLowerCase().indexOf('levantate') > -1) {
          //SUBIR INDIO PICARO
-         subirIndio(servo);
+         subirIndio(servo, piezo, theSongUp);
       } else if (tweet.text.toLowerCase().indexOf('bajate') > -1) {
          //BAJAR INDIO PICARO
-         bajarIndio(servo);
+         bajarIndio(servo, piezo, theSongDown);
       }
    });
    t.on('error', function(err) {
@@ -37,4 +66,3 @@ board.on('ready', function() {
    });
    t.track('@indiopicaro_js');
 });
-
